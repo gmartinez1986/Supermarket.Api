@@ -27,6 +27,10 @@ builder.Services.AddScoped<IProductsRepository, ProductsRepository>();
 //para su inyección de dependencias en el contenedor de servicios.
 builder.Services.AddScoped<IPurchasesRepository, PurchasesRepository>();
 
+//Registra la implementación concreta de IReportsRepository
+//para su inyección de dependencias en el contenedor de servicios.
+builder.Services.AddScoped<IReportsRepository, ReportsRepository>();
+
 var app = builder.Build();
 
 //Crea la tabla Productos al iniciar la aplicación.
