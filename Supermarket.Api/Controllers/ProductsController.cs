@@ -1,23 +1,20 @@
-﻿using Microsoft.AspNetCore.Http.HttpResults;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Primitives;
+﻿using Microsoft.AspNetCore.Mvc;
 using Supermarket.Api.Data;
 using Supermarket.Api.Model;
-using System.Diagnostics;
 
 namespace Supermarket.Api.Controllers
 {
-    [Route("api/supermarket")]
-    public class SupermarketController : Controller
+    [Route("api/Products")]
+    public class ProductsController : Controller
     {
-        private readonly IRepository _repository;
-        public SupermarketController(IRepository repository)
+        private readonly IProductsRepository _repository;
+        public ProductsController(IProductsRepository repository)
         {
             _repository = repository;
         }
 
         [HttpGet]
-        [Route("GetProducts")] //api/supermarket/GetProducts
+        [Route("GetProducts")] //api/Products/GetProducts
         public async Task<IActionResult> GetProducts()
         {
             try
@@ -31,7 +28,7 @@ namespace Supermarket.Api.Controllers
         }
 
         [HttpGet]
-        [Route("GetProduct")] //api/supermarket/GetProduct/id
+        [Route("GetProduct")] //api/Products/GetProduct/id
         public async Task<IActionResult> GetProduct([FromQuery] int id)
         {
             try
@@ -45,7 +42,7 @@ namespace Supermarket.Api.Controllers
         }
 
         [HttpPost]
-        [Route("CreateProduct")] //api/supermarket/CreateProduct
+        [Route("CreateProduct")] //api/Products/CreateProduct
         public async Task<IActionResult> CreateProduct([FromBody] Product product)
         {
             try
@@ -82,7 +79,7 @@ namespace Supermarket.Api.Controllers
         }
 
         [HttpPut] 
-        [Route("EditProduct")] //api/supermarket/EditProduct/id
+        [Route("EditProduct")] //api/Products/EditProduct/id
         public async Task<IActionResult> EditProduct([FromQuery] int id, [FromBody] Product product)
         {
             try
@@ -121,7 +118,7 @@ namespace Supermarket.Api.Controllers
         }
 
         [HttpDelete]
-        [Route("DeleteProduct")] //api/supermarket/DeleteProduct/id
+        [Route("DeleteProduct")] //api/Products/DeleteProduct/id
         public async Task<IActionResult> DeleteProduct([FromQuery] int id)
         {
             try

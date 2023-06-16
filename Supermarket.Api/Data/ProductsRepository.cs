@@ -4,7 +4,7 @@ using Supermarket.Api.Model;
 
 namespace Supermarket.Api.Data
 {
-    public interface IRepository
+    public interface IProductsRepository
     {
         Task<IEnumerable<Product>> GetProducts();
         Task<Product> GetProduct(int Id);
@@ -13,7 +13,7 @@ namespace Supermarket.Api.Data
         Task<int> DeleteProduct(int id);
     }
 
-    public class Repository : IRepository
+    public class ProductsRepository : IProductsRepository
     {
         private static string _connectionString;
 
