@@ -1,5 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.AspNetCore.Mvc;
 using Supermarket.Api.Data;
+using Supermarket.Api.Model;
 using System.Diagnostics;
 
 namespace Supermarket.Api.Controllers
@@ -34,6 +36,25 @@ namespace Supermarket.Api.Controllers
             try
             {
                 return Ok(await _repository.GetProduct(id));
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+        }
+
+        [HttpPost]
+        [Route("CreateProduct")] //api/supermarket/CreateProduct
+        public async Task<IActionResult> CreateProduct([FromBody] Product product)
+        {
+            try
+            {
+                if (product == null)
+                {
+                   return BadRequest("El producto no puede ser nulo.");
+                }
+
+                return Ok(await _repository.CreateProduct(product));
             }
             catch (Exception ex)
             {

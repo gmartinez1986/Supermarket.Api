@@ -8,6 +8,7 @@ namespace Supermarket.Api.Data
     {
         Task<IEnumerable<Product>> GetProducts();
         Task<Product> GetProduct(int Id);
+        Task<int> CreateProduct(Product product);
     }
 
     public class Repository : IRepository
@@ -42,7 +43,10 @@ namespace Supermarket.Api.Data
             }
         }
 
-        public async Task<Product> GetProduct(int Id)
+        /// <summary>
+        /// Devuelve un producto en particular a partir de su id.
+        /// </summary>
+        public async Task<Product> GetProduct(int id)
         {
             try
             {
@@ -58,9 +62,34 @@ namespace Supermarket.Api.Data
                                        FROM [Products]
                                        WHERE Id = @Id";
 
-                    var parameters = new { Id };
+                    var parameters = new { Id = id };
 
                     return await connection.QueryFirstOrDefaultAsync<Product>(query, parameters);
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+                throw;
+            }
+        }
+
+        /// <summary>
+        /// Crea un nuevo producto.
+        /// </summary>
+        public async Task<int> CreateProduct(Product product)
+        {
+            try
+            {
+                GetConnectionString();
+
+                using (var connection = new SqliteConnection(_connectionString))
+                {
+                    var query = @"INSERT INTO Products (Brand, DateOfExpirity, Name, Price)
+                                  VALUES (@Brand, @DateOfExpirity, @Name, @Price);
+                                  SELECT last_insert_rowid();";
+
+                    return await connection.ExecuteScalarAsync<int>(query, product);
                 }
             }
             catch (Exception ex)
