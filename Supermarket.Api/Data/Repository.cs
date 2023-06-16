@@ -9,6 +9,8 @@ namespace Supermarket.Api.Data
         Task<IEnumerable<Product>> GetProducts();
         Task<Product> GetProduct(int Id);
         Task<int> CreateProduct(Product product);
+        Task<int> EditProduct(Product product);
+        Task<int> DeleteProduct(int id);
     }
 
     public class Repository : IRepository
@@ -90,6 +92,57 @@ namespace Supermarket.Api.Data
                                   SELECT last_insert_rowid();";
 
                     return await connection.ExecuteScalarAsync<int>(query, product);
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+                throw;
+            }
+        }
+
+        /// <summary>
+        /// Modificar un producto.
+        /// </summary>
+        public async Task<int> EditProduct(Product product)
+        {
+            try
+            {
+                GetConnectionString();
+
+                using (var connection = new SqliteConnection(_connectionString))
+                {
+                    var query = @"UPDATE Products
+                                  SET Brand = @Brand, DateOfExpirity = @DateOfExpirity, Name = @Name, Price = @Price
+                                  WHERE Id = @Id";
+
+                    return await connection.ExecuteAsync(query, product);
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+                throw;
+            }
+        }
+
+
+        /// <summary>
+        /// Elimina un producto a partir de su id.
+        /// </summary>
+        public async Task<int> DeleteProduct(int id)
+        {
+            try
+            {
+                GetConnectionString();
+
+                using (var connection = new SqliteConnection(_connectionString))
+                {
+                    var query = "DELETE FROM Products WHERE Id = @Id";
+
+                    var parameters = new { Id = id };
+
+                    return await connection.ExecuteAsync(query, parameters);
                 }
             }
             catch (Exception ex)

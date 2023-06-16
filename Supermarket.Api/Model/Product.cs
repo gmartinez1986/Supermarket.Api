@@ -15,6 +15,6 @@ namespace Supermarket.Api.Model
         [Required]
         public DateTime DateOfExpirity { get; set; }
         [Required]
-        public decimal Price { get; set; }
+        public string Price { get; set; }
     }
 }

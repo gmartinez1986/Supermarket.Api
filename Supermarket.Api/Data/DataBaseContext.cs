@@ -22,7 +22,7 @@ public class DataBaseContext
                     Name VARCHAR(50),
                     Brand VARCHAR(50),
                     DateOfExpirity DATETIME,
-                    Price DECIMAL
+                    Price VARCHAR(50)
                 );";
 
             connection.Execute(createTableQuery);
